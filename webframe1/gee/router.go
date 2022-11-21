@@ -5,6 +5,8 @@ import (
 	"net/http"
 )
 
+type HandleFunc func(ctx *Context)
+
 type router struct {
 	handlers map[string]HandleFunc
 }

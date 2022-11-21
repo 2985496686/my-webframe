@@ -4,8 +4,6 @@ import (
 	"net/http"
 )
 
-type HandleFunc func(ctx *Context)
-
 type Engine struct {
 	router
 }
