@@ -15,12 +15,17 @@ type Context struct {
 	Path   string
 	//Response data
 	StatusCode int
+	//路径中的参数
+	Params map[string]string
 }
 
 func newContext(w http.ResponseWriter, r *http.Request) *Context {
 	return &Context{
-		Writer:  w,
-		Request: r,
+		Writer:     w,
+		Request:    r,
+		Method:     r.Method,
+		Path:       r.URL.Path,
+		StatusCode: 400,
 	}
 }
 
@@ -60,4 +65,8 @@ func (ctx *Context) HTML(code int, html string) {
 	ctx.Status(code)
 	ctx.SetHeader("Content-Type", "text/html")
 	ctx.Writer.Write([]byte(html))
+}
+
+func (ctx *Context) Param(key string) string {
+	return ctx.Params[key]
 }

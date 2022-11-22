@@ -1,6 +1,7 @@
 package gee
 
 import (
+	"log"
 	"net/http"
 )
 
@@ -16,6 +17,7 @@ func New() *Engine {
 func (e *Engine) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	context := newContext(w, r)
 	e.handle(context)
+	log.Printf("[gin] |  %d  |\t\t%s\t%s", context.StatusCode, context.Method, context.Path)
 }
 
 func (e *Engine) addRoute(method string, pattern string, handle HandleFunc) {

@@ -29,6 +29,6 @@ func TestTire(t *testing.T) {
 	root.insert(router2, ParseRouter(router2), -1)
 	root.insert(router3, ParseRouter(router3), -1)
 	fmt.Println(root.search(ParseRouter(router1), -1).pattern)
-	fmt.Println(root.search(ParseRouter("/user/name"), -1).pattern)
+	fmt.Println(root.search(ParseRouter("/user/get/1"), -1).pattern)
 	//root.insert("")
 }

@@ -52,7 +52,7 @@ func (n *node) insert(pattern string, parts []string, height int) {
 
 // 查找路由
 func (n *node) search(parts []string, height int) *node {
-	//height == len(parts) 判断路由是否全部匹配完毕
+	//height == len(parts) 判断路由是否全部匹配完毕 或者这是一个模糊匹配
 	if height == len(parts)-1 || strings.HasPrefix(n.part, "*") {
 		//n.pattern != "" 判断当前路由是否是前缀树上的一个完整路由
 		if n.pattern != "" {
