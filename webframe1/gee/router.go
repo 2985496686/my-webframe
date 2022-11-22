@@ -13,8 +13,8 @@ type router struct {
 	root     map[string]*node
 }
 
-func newRouter() router {
-	return router{
+func newRouter() *router {
+	return &router{
 		handlers: make(map[string]HandleFunc),
 		root:     make(map[string]*node),
 	}
