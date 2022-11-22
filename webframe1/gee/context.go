@@ -17,6 +17,9 @@ type Context struct {
 	StatusCode int
 	//路径中的参数
 	Params map[string]string
+	//middlewares
+	handles []HandleFunc
+	index int
 }
 
 func newContext(w http.ResponseWriter, r *http.Request) *Context {
@@ -26,6 +29,14 @@ func newContext(w http.ResponseWriter, r *http.Request) *Context {
 		Method:     r.Method,
 		Path:       r.URL.Path,
 		StatusCode: 400,
+		index: -1,
+	}
+}
+
+func (ctx *Context) Next() {
+	ctx.index++
+	for ; ctx.index < len(ctx.handles); ctx.index++{
+		ctx.handles[ctx.index](ctx)
 	}
 }
 

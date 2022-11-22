@@ -3,6 +3,7 @@ package gee
 import (
 	"log"
 	"net/http"
+	"strings"
 )
 
 type RouterGroup struct {
@@ -26,8 +27,17 @@ func New() *Engine {
 }
 func (e *Engine) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	context := newContext(w, r)
+	for _,group := range e.routerGroups{
+		if strings.HasPrefix(context.Path,group.prefix){
+			context.handles = append(e.middlewares,group.middlewares...)
+		}
+	}
 	e.handle(context)
 	log.Printf("[gin] |  %d  |\t\t%s\t%s", context.StatusCode, context.Method, context.Path)
+}
+
+func (r *RouterGroup) Use(middlewares ...HandleFunc) {
+	r.middlewares = append(r.middlewares, middlewares...)
 }
 
 func (r *RouterGroup) Group(prefix string) *RouterGroup {
