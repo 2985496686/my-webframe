@@ -19,7 +19,7 @@ type Context struct {
 	Params map[string]string
 	//middlewares
 	handles []HandleFunc
-	index int
+	index   int
 }
 
 func newContext(w http.ResponseWriter, r *http.Request) *Context {
@@ -29,13 +29,13 @@ func newContext(w http.ResponseWriter, r *http.Request) *Context {
 		Method:     r.Method,
 		Path:       r.URL.Path,
 		StatusCode: 400,
-		index: -1,
+		index:      -1,
 	}
 }
 
 func (ctx *Context) Next() {
 	ctx.index++
-	for ; ctx.index < len(ctx.handles); ctx.index++{
+	for ; ctx.index < len(ctx.handles); ctx.index++ {
 		ctx.handles[ctx.index](ctx)
 	}
 }
@@ -80,4 +80,9 @@ func (ctx *Context) HTML(code int, html string) {
 
 func (ctx *Context) Param(key string) string {
 	return ctx.Params[key]
+}
+
+func (ctx *Context) Fail(code int, errMessage string) {
+	ctx.Status(code)
+	ctx.Writer.Write([]byte(errMessage))
 }
